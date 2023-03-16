@@ -1,18 +1,29 @@
 from transformers import AutoModel, AutoTokenizer
 import gradio as gr
 
-tokenizer = AutoTokenizer.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True)
-model = AutoModel.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True).half().cuda()
+tokenizer = AutoTokenizer.from_pretrained("THUDM/chatglm-6b",cache_dir="G:/GPT/THUDM_chatglm-6b",  trust_remote_code=True)
+model = AutoModel.from_pretrained("THUDM/chatglm-6b", cache_dir="G:/GPT/THUDM_chatglm-6b",  trust_remote_code=True).half().quantize(4).cuda()
 model = model.eval()
 
 MAX_TURNS = 20
 MAX_BOXES = MAX_TURNS * 2
 
+def check_history(wait_clean_item):
+    length = sum(sum(len(s) for s in tpl) for tpl in wait_clean_item)
+    print(f"list length:{len(wait_clean_item) } str length:{length}")
+    while length > 2048:
+        length -= sum(len(s) for s in wait_clean_item[0])
+        del wait_clean_item[0]
+        
+        print(f'clear history less length: {sum(sum(len(s) for s in tpl) for tpl in wait_clean_item)}')
+    
+    return wait_clean_item
+
 
 def predict(input, history=None):
     if history is None:
         history = []
-    response, history = model.chat(tokenizer, input, history)
+    response, history = model.chat(tokenizer, input, check_history(history))
     updates = []
     for query, response in history:
         updates.append(gr.update(visible=True, value="用户：" + query))
