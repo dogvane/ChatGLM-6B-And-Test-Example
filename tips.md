@@ -2,6 +2,7 @@
 
 ## window 使用 python 虚拟环境安装
 
+```
 conda create -n chatgpt python=3.10 -y
 conda activate chatgpt
 
@@ -12,9 +13,17 @@ git clone https://github.com/dogvane/ChatGLM-6B-And-Test-Example.git
 cd ChatGLM-6B
 
 pip install -r .\requirements.txt
+```
 
-## INT4 还是 INT8
-gtx 1080 能跑 INT4 的 2048 token 的对话，INT8 能跑，但是不能使用history或者说，只能使用少量的token的history。
+或者到b站秋叶找一键安装包
+
+https://www.bilibili.com/video/BV1E24y1u7Go
+
+
+
+## 量化选 INT4 还是 INT8
+gtx 1080 能完整的运行 INT4 的 2048 token对话。
+INT8 也能跑，只能设置少量的上下文token，不适合对话场景。
 
 
 ## 爆显存的原因
@@ -35,5 +44,5 @@ Input length of input_ids is 2077, but `max_length` is set to 2048. This can lea
 ## 性能
 
 使用GTX 1080显卡，在INT4下，每次查询基本上都是30s起步，根据返回结果的长度，通常会到60s~120s之间。
-根据一些热心网友的回答，在4090下，能够达到chatgpt3的反馈速度。 1s~2s 给出一个结果。
+
 
