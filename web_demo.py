@@ -7,7 +7,7 @@ from transformers import AutoModel, AutoTokenizer
 import gradio as gr
 
 
-cache_dir = "G:/GPT/THUDM_chatglm-6b"
+cache_dir = "./cache"
 
 def loadModel(quantizationBit):
     model = None

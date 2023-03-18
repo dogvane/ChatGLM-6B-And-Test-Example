@@ -8,7 +8,7 @@ from transformers import AutoTokenizer, AutoModel
 os_name = platform.system()
 print("os: " + os_name)
 previous_time = datetime.now()
-cache_dir = "G:/GPT/THUDM_chatglm-6b";
+cache_dir = "./cache";
 
 print(f"begin load. {datetime.now()}")
 tokenizer = AutoTokenizer.from_pretrained("THUDM/chatglm-6b", cache_dir=cache_dir, trust_remote_code=True)
