@@ -46,3 +46,6 @@ Input length of input_ids is 2077, but `max_length` is set to 2048. This can lea
 使用GTX 1080显卡，在INT4下，每次查询基本上都是30s起步，根据返回结果的长度，通常会到60s~120s之间。
 
 
+## 加速启动优化
+
+参考 https://github.com/THUDM/ChatGLM-6B/issues/143 里说的，当前的版本可以做到启动从 300s 变成 10s
