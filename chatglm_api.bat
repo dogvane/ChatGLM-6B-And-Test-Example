@@ -1,0 +1,1 @@
+uvicorn chatglm_api:app --port 8080 --reload
