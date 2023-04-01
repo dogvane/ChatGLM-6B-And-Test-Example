@@ -35,11 +35,29 @@ def read_and_translate_file(file_name):
                 lineCount += 1
                 strCount += len(line)
                 
-                response, history =  model.chat(tokenizer, line, [('翻译：', '')])
-                print(line)
-                print(response)
+                print("source: " + line)
                 
-                output_file.write(response + '\n')
+                response, history =  model.chat(tokenizer, line, [('翻译成中文', '')])
+                print(response + '\n\n')
+                output_file.write(response + '\n\n')
+                
+                response, history =  model.chat(tokenizer, response, [('一句话总结', '')])
+                print(response + '\n\n')
+                output_file.write(response + '\n\n')
+                
+                response, history =  model.chat(tokenizer, response, [('关键字总结，返回列表', '')])
+                print(response + '\n\n')
+                output_file.write(response + '\n\n')
+
+                response, history =  model.chat(tokenizer, line, [('提取关键字，返回列表', '')])
+                print(response + '\n\n')                
+                output_file.write(response + '\n\n\n')
+                
+                response, history =  model.chat(tokenizer, response, [('翻译成中文', '')])
+                print(response + '\n\n')
+                output_file.write(response + '\n\n\n')
+                
+                
                 
     print(f"翻译语句数：{lineCount} 字符数量:{strCount} 总用时:{ (datetime.now() - previous_time).total_seconds() } 秒")
 
