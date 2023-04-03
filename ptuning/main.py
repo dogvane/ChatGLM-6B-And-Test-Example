@@ -112,10 +112,10 @@ def main():
 
     model = AutoModel.from_pretrained(model_args.model_name_or_path, config=config, trust_remote_code=True)
 
-    model = model.half()
     if model_args.quantization_bit is not None:
         print(f"Quantized to {model_args.quantization_bit} bit")
         model = model.quantize(model_args.quantization_bit)
+    model = model.half()
     model.transformer.prefix_encoder.float()
 
     prefix = data_args.source_prefix if data_args.source_prefix is not None else ""
@@ -147,7 +147,7 @@ def main():
                 targets.append(examples[response_column][i])
 
         inputs = [prefix + inp for inp in inputs]
-        model_inputs = tokenizer(inputs, max_length=data_args.max_source_length, truncation=True)
+        model_inputs = tokenizer(inputs, max_length=data_args.max_source_length, truncation=True, padding=True)
         labels = tokenizer(text_target=targets, max_length=max_target_length, truncation=True)
 
         if data_args.ignore_pad_token_for_loss:
@@ -262,6 +262,7 @@ def main():
         model=model,
         label_pad_token_id=label_pad_token_id,
         pad_to_multiple_of=None,
+        padding=False
     )
 
     # Metric
@@ -374,9 +375,10 @@ def main():
                 )
                 labels = [label.strip() for label in labels]
                 output_prediction_file = os.path.join(training_args.output_dir, "generated_predictions.txt")
-                with open(output_prediction_file, "w") as writer:
+                with open(output_prediction_file, "w", encoding="utf-8") as writer:
                     for p, l in zip(predictions, labels):
-                        writer.write(json.dumps({"labels": l, "predict": p}, ensure_ascii=False))
+                        res = json.dumps({"labels": l, "predict": p}, ensure_ascii=False)
+                        writer.write(f"{res}\n")
     return results
 
 
