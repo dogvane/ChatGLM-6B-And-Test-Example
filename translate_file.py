@@ -11,7 +11,7 @@ def read_and_translate_file(file_name):
     
     global model,tokenizer
     if  model is None:
-        quantizationBit = 4 # 量化模型的大小， 4 或者8 ，0 表示不进行量化
+        quantizationBit = 8 # 量化模型的大小， 4 或者8 ，0 表示不进行量化
         tokenizer, model = chatglm_utils.loadModel(quantizationBit)
     
     filename, file_extension = os.path.splitext(file_name)
@@ -41,21 +41,21 @@ def read_and_translate_file(file_name):
                 print(response + '\n\n')
                 output_file.write(response + '\n\n')
                 
-                response, history =  model.chat(tokenizer, response, [('一句话总结', '')])
-                print(response + '\n\n')
-                output_file.write(response + '\n\n')
+                # response, history =  model.chat(tokenizer, response, [('一句话总结', '')])
+                # print(response + '\n\n')
+                # output_file.write(response + '\n\n')
                 
-                response, history =  model.chat(tokenizer, response, [('关键字总结，返回列表', '')])
-                print(response + '\n\n')
-                output_file.write(response + '\n\n')
+                # response, history =  model.chat(tokenizer, response, [('关键字总结，返回列表', '')])
+                # print(response + '\n\n')
+                # output_file.write(response + '\n\n')
 
-                response, history =  model.chat(tokenizer, line, [('提取关键字，返回列表', '')])
-                print(response + '\n\n')                
-                output_file.write(response + '\n\n\n')
+                # response, history =  model.chat(tokenizer, line, [('提取关键字，返回列表', '')])
+                # print(response + '\n\n')                
+                # output_file.write(response + '\n\n\n')
                 
-                response, history =  model.chat(tokenizer, response, [('翻译成中文', '')])
-                print(response + '\n\n')
-                output_file.write(response + '\n\n\n')
+                # response, history =  model.chat(tokenizer, response, [('翻译成中文', '')])
+                # print(response + '\n\n')
+                # output_file.write(response + '\n\n\n')
                 
                 
                 
